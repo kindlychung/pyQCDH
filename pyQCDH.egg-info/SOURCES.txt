@@ -1,0 +1,11 @@
+README
+setup.py
+pyQCDH/BedBimFam.py
+pyQCDH/BimFamReader.py
+pyQCDH/PlinkFile.py
+pyQCDH/__init__.py
+pyQCDH.egg-info/PKG-INFO
+pyQCDH.egg-info/SOURCES.txt
+pyQCDH.egg-info/dependency_links.txt
+pyQCDH.egg-info/requires.txt
+pyQCDH.egg-info/top_level.txt
