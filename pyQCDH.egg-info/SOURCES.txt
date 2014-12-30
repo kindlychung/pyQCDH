@@ -2,8 +2,11 @@ README
 setup.py
 pyQCDH/BedBimFam.py
 pyQCDH/BimFamReader.py
-pyQCDH/PlinkFile.py
+pyQCDH/ByteDict.py
+pyQCDH/Gwas.py
 pyQCDH/__init__.py
+pyQCDH/pydata.py
+pyQCDH/test.py
 pyQCDH.egg-info/PKG-INFO
 pyQCDH.egg-info/SOURCES.txt
 pyQCDH.egg-info/dependency_links.txt
