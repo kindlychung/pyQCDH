@@ -3,7 +3,7 @@ from setuptools import setup
 setup(
     name = "pyQCDH",
     packages = ["pyQCDH"],
-    version = "0.0.6",
+    version = "0.0.7",
     # entry_points = {"console_scripts": ['gtranslate = translator.shellscript:main']},
     install_requires = ["pandas", "statsmodels", "numpy"],
     description = "QCDH",

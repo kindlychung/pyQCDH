@@ -5,6 +5,7 @@ pyQCDH/BimFamReader.py
 pyQCDH/ByteDict.py
 pyQCDH/Gwas.py
 pyQCDH/__init__.py
+pyQCDH/collective_intelligence.py
 pyQCDH/pydata.py
 pyQCDH/test.py
 pyQCDH.egg-info/PKG-INFO

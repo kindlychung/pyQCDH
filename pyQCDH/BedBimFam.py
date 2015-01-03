@@ -32,6 +32,7 @@ class BedBimFam:
         self._validate_file_size()
         #:type: list[str]
         self.snp = self.bim.snp["SNP"].tolist() # a list of SNP names
+        self.snp_idx_dict = dict(zip(self.snp, range(len(self.snp))))
 
 
     @property
@@ -207,10 +208,10 @@ class Bed(PlinkFile):
         # convert it into a numpy array and reshape it into right dimensions
         geno_data = numpy.array(geno_data)
         geno_data = geno_data.reshape((self.parent.n_individuals_apparent, -1), order="F")
-        # pdb.set_trace()
         geno_data = pandas.DataFrame(geno_data[0:self.parent.n_individuals, ], index=[self.parent.fam.fidiid.FID, self.parent.fam.fidiid.IID])
-        # geno_data = pandas.concat([self.parent.fam.fidiid, geno_data], axis=1)
-        return geno_data
+        geno_data = geno_data.replace(-9, numpy.nan)
+        # fill all NAs with column mean
+        return geno_data.apply(lambda x: numpy.where(x.isnull(), x.mean(), x))
 
     def read_all(self):
         """
@@ -225,7 +226,7 @@ class Bed(PlinkFile):
             all_bytes.columns = self.parent.snp
             return all_bytes
 
-    def read_snps(self, snp_list):
+    def read_snps(self, snp_list, warning=False):
         """
         Read selected SNPs into a pandas data frame.
         :type snp_list: list[str]
@@ -233,12 +234,14 @@ class Bed(PlinkFile):
         :rtype: pandas.core.frame.DataFrame
         """
         # get the indices of SNPs in the list
-        idx = [i for i in range(len(self.parent.snp)) if self.parent.snp[i] in snp_list]
+        # idx = [i for i in range(len(self.parent.snp)) if self.parent.snp[i] in snp_list]
+        idx = [self.parent.snp_idx_dict[snp] for snp in snp_list]
         # check if all SNPs in the list can be found in plink files
-        snp_found = [self.parent.snp[i] for i in idx]
-        snp_missing = [snp for snp in snp_list if snp not in snp_found]
-        if snp_missing:
-            sys.stderr.write("Warning: the following SNPs cannot be found: \n" + str(snp_missing))
+        if warning:
+            snp_found = [self.parent.snp[i] for i in idx]
+            snp_missing = [snp for snp in snp_list if snp not in snp_found]
+            if snp_missing:
+                sys.stderr.write("Warning: the following SNPs cannot be found: \n" + str(snp_missing))
         # DRY: make use of self.read_cols
         return self.read_cols(idx)
 
@@ -298,7 +301,6 @@ class Fam(PlinkFile, BimFamReader):
             else:
                 self._fidiid = self.read(usecols=["FID", "IID"])
         return self._fidiid
-
 
 
 

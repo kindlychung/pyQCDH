@@ -29,7 +29,7 @@ class BimFamReader:
 
     @property
     def data(self):
-        if not self._data:
+        if self._data is not None:
             self._data = self.read(usecols="all")
         return self._data
 

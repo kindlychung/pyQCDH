@@ -1,5 +1,6 @@
 import pandas, scipy
 import numpy as np
+import statsmodels.api as sm
 
 class Gwas:
     def __init__(self, pheno, geno, pheno_name, covar_names):
